@@ -2,6 +2,6 @@
 <h2>Event Bus</h2>
 <app-employee-counter></app-employee-counter>
 <app-employee-list></app-employee-list>
-      <input class="form-control">
-      <button class="btn btn-primary">Add</button>
+      <input class="form-control" [(ngModel)]="newEmployee">
+      <button class="btn btn-primary" (click)="onAdd()">Add</button>
 </div>

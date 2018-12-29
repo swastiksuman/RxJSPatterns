@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Employee } from '../../shared/model/employee.model';
-import { globalEventBus, Observer } from '../event-bus';
+import { globalEventBus, Observer, EMPLOYEE_LIST_AVAILABLE } from '../event-bus';
 
 @Component({
   selector: 'app-employee-list',
@@ -10,7 +10,7 @@ import { globalEventBus, Observer } from '../event-bus';
 export class EmployeeListComponent implements OnInit, Observer {
   employeeList: Employee[];
   constructor() {
-    globalEventBus.registerObserver(this);
+    globalEventBus.registerObserver(EMPLOYEE_LIST_AVAILABLE, this);
    }
 
   ngOnInit() {

@@ -1,26 +1,37 @@
 
+export const ADD_NEW_EMPLOYEE = 'ADD_NEW_EMPLOYEE';
+export const EMPLOYEE_LIST_AVAILABLE = 'NEW_LIST_AVAILABLE';
+
 export interface Observer {
   notify(data: any);
 }
 
 interface Subject {
-  registerObserver(obs: Observer);
-  unregisterObserver(obs: Observer);
-  notifyObserver(data: any);
+  registerObserver(eventType: string, obs: Observer);
+  unregisterObserver(eventType: string, obs: Observer);
+  notifyObserver(eventType: string, data: any);
 }
 
 class EventBus implements Subject {
-  private observers: Observer[] = [];
-  registerObserver(obs: Observer) {
-    this.observers.push(obs);
+  private observers: {[key: string]: Observer[] } = {};
+  registerObserver(eventType: string, obs: Observer) {
+    this.observersPerEventType(eventType).push(obs);
   }
-  unregisterObserver(obs: Observer) {
-    this.observers.splice(this.observers.findIndex((data) => data === obs), 1);
+  unregisterObserver(eventType: string, obs: Observer) {
+    this.observersPerEventType(eventType).splice(this.observersPerEventType(eventType).findIndex((data) => data === obs), 1);
   }
-  notifyObserver(data: any) {
-    this.observers.forEach((obs) => {
+  notifyObserver(eventType: string, data: any) {
+    this.observersPerEventType(eventType).forEach((obs) => {
       obs.notify(data);
     });
+  }
+
+  private observersPerEventType(eventType: string) {
+    const observersPerType = this.observers[eventType];
+    if (!observersPerType) {
+      this.observers[eventType] = [];
+    }
+    return this.observers[eventType];
   }
 }
 
