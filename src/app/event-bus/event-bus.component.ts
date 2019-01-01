@@ -15,6 +15,14 @@ export class EventBusComponent implements OnInit {
 
   ngOnInit() {
     globalEventBus.notifyObserver(EMPLOYEE_LIST_AVAILABLE, employeeList.slice(0));
+    setTimeout(() => {
+      employeeList.push({
+        id: Math.floor(Math.random() * 100),
+      name: 'New Employee',
+      designation: 'Clerk'
+      });
+      globalEventBus.notifyObserver(EMPLOYEE_LIST_AVAILABLE, employeeList.slice(0));
+    }, 10000);
   }
 
   onAdd(){
